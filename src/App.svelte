@@ -14,9 +14,9 @@ onMount(() => {
     loadTools();
 });
 
-async function handleAdd() {
+function handleAdd() {
     if (newTool.name && newTool.price) {
-        await addTool({
+        addTool({
             name: newTool.name,
             price: Number(newTool.price),
             description: newTool.description,
@@ -30,15 +30,15 @@ function handleEdit(tool) {
     editingTool = { ...tool };
 }
 
-async function handleUpdate() {
+function handleUpdate() {
     if (editingTool && editingTool.name && editingTool.price) {
-        await updateTool(editingTool.id, editingTool);
+        updateTool(editingTool.id, editingTool);
         editingTool = null;
     }
 }
 
-async function handleDelete(id) {
-    await deleteTool(id);
+function handleDelete(id) {
+    deleteTool(id);
 }
 </script>
 
@@ -210,12 +210,13 @@ async function handleDelete(id) {
     }
 
     button {
+        border: none;
         padding: 15px 30px;
         background: #4CAF50;
         color: white;
         border: none;
-        border-radius: 8px;
         cursor: pointer;
+        border-radius: 8px;
         font-size: 1.2rem;
         transition: all 0.2s;
         flex: 1;
