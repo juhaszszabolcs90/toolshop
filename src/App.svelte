@@ -82,10 +82,20 @@ function handleDelete(id) {
         max-width: 800px;
         margin: 0 auto;
         padding: 20px;
+        color: #333;
+        background-color: #f5f5f5;
+    }
+
+    h1, h2, h3 {
+        color: #333;
     }
 
     .form-section {
         margin-bottom: 30px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
     .form {
@@ -104,6 +114,17 @@ function handleDelete(id) {
         padding: 15px;
         border-radius: 8px;
         background: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .tool-card h3 {
+        margin: 0 0 10px 0;
+        color: #2c3e50;
+    }
+
+    .tool-card p {
+        margin: 5px 0;
+        color: #34495e;
     }
 
     .actions {
@@ -129,6 +150,8 @@ function handleDelete(id) {
         padding: 8px;
         border: 1px solid #ddd;
         border-radius: 4px;
+        color: #333;
+        background-color: white;
     }
 
     .edit-form {
