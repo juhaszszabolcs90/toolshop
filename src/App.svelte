@@ -230,12 +230,11 @@ function handleDelete(id) {
         width: 100%;
         box-sizing: border-box;
         background-color: white;
+        color: #333;
     }
 
-    input:focus {
-        outline: none;
-        border-color: #4CAF50;
-        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    input::placeholder {
+        color: #999;
     }
 
     .edit-form {
