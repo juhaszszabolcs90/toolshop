@@ -7,16 +7,17 @@ toolsStore.subscribe(value => {
 });
 
 let editingTool = null;
-let newTool = { name: '', price: '', description: '' };
+let newTool = { name: '', price: '', description: '', imageUrl: '' };
 
 function handleAdd() {
     if (newTool.name && newTool.price) {
         addTool({
             name: newTool.name,
             price: Number(newTool.price),
-            description: newTool.description
+            description: newTool.description,
+            imageUrl: newTool.imageUrl
         });
-        newTool = { name: '', price: '', description: '' };
+        newTool = { name: '', price: '', description: '', imageUrl: '' };
     }
 }
 
@@ -46,6 +47,7 @@ function handleDelete(id) {
             <input bind:value={newTool.name} placeholder="Tool name" />
             <input type="number" bind:value={newTool.price} placeholder="Price" />
             <input bind:value={newTool.description} placeholder="Description" />
+            <input bind:value={newTool.imageUrl} placeholder="Image URL" />
             <button on:click={handleAdd}>Add Tool</button>
         </div>
     </div>
@@ -60,6 +62,7 @@ function handleDelete(id) {
                         <input bind:value={editingTool.name} />
                         <input type="number" bind:value={editingTool.price} />
                         <input bind:value={editingTool.description} />
+                        <input bind:value={editingTool.imageUrl} />
                         <button on:click={handleUpdate}>Save</button>
                         <button on:click={() => editingTool = null}>Cancel</button>
                     </div>
@@ -67,6 +70,9 @@ function handleDelete(id) {
                     <h3>{tool.name}</h3>
                     <p>${tool.price}</p>
                     <p>{tool.description}</p>
+                    {#if tool.imageUrl}
+                        <img src={tool.imageUrl} alt={tool.name} />
+                    {/if}
                     <div class="actions">
                         <button on:click={() => handleEdit(tool)}>Edit</button>
                         <button on:click={() => handleDelete(tool.id)}>Delete</button>
@@ -158,5 +164,12 @@ function handleDelete(id) {
         display: flex;
         flex-direction: column;
         gap: 10px;
+    }
+
+    .tool-card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
     }
 </style>
