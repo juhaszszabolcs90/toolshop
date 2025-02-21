@@ -1,5 +1,6 @@
 <script>
-import { toolsStore, addTool, updateTool, deleteTool } from './lib/store';
+import { toolsStore, addTool, updateTool, deleteTool, loadTools } from './lib/store';
+import { onMount } from 'svelte';
 
 let tools = [];
 toolsStore.subscribe(value => {
@@ -9,9 +10,13 @@ toolsStore.subscribe(value => {
 let editingTool = null;
 let newTool = { name: '', price: '', description: '', imageUrl: '' };
 
-function handleAdd() {
+onMount(() => {
+    loadTools();
+});
+
+async function handleAdd() {
     if (newTool.name && newTool.price) {
-        addTool({
+        await addTool({
             name: newTool.name,
             price: Number(newTool.price),
             description: newTool.description,
@@ -25,15 +30,15 @@ function handleEdit(tool) {
     editingTool = { ...tool };
 }
 
-function handleUpdate() {
+async function handleUpdate() {
     if (editingTool && editingTool.name && editingTool.price) {
-        updateTool(editingTool.id, editingTool);
+        await updateTool(editingTool.id, editingTool);
         editingTool = null;
     }
 }
 
-function handleDelete(id) {
-    deleteTool(id);
+async function handleDelete(id) {
+    await deleteTool(id);
 }
 </script>
 

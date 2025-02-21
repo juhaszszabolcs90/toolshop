@@ -1,29 +1,70 @@
 import { writable } from 'svelte/store';
 
-// Initial tools data
-const initialTools = [
-    { id: 1, name: 'Kalapács', price: 19.99, description: 'Strapabíró kalapács minden célra', imageUrl: 'https://example.com/hammer.jpg' },
-    { id: 2, name: 'Csavarhúzó', price: 9.99, description: 'Phillips fejű csavarhúzó', imageUrl: 'https://example.com/screwdriver.jpg' },
-    { id: 3, name: 'Villáskulcs', price: 14.99, description: 'Állítható villáskulcs', imageUrl: 'https://example.com/wrench.jpg' }
-];
+const API_URL = 'http://localhost:3000/api';
 
 // Create the store
-export const toolsStore = writable(initialTools);
+export const toolsStore = writable([]);
 
-// Store actions
-export const addTool = (tool) => {
-    toolsStore.update(tools => {
-        const newId = Math.max(...tools.map(t => t.id)) + 1;
-        return [...tools, { ...tool, id: newId }];
-    });
+// Load initial data
+export const loadTools = async () => {
+    try {
+        const response = await fetch(`${API_URL}/tools`);
+        const data = await response.json();
+        toolsStore.set(data);
+    } catch (error) {
+        console.error('Error loading tools:', error);
+    }
 };
 
-export const updateTool = (id, updatedTool) => {
-    toolsStore.update(tools => 
-        tools.map(tool => tool.id === id ? { ...tool, ...updatedTool } : tool)
-    );
+// Add new tool
+export const addTool = async (tool) => {
+    try {
+        const response = await fetch(`${API_URL}/tools`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(tool),
+        });
+        const data = await response.json();
+        if (data.id) {
+            toolsStore.update(tools => [...tools, { ...tool, id: data.id }]);
+        }
+    } catch (error) {
+        console.error('Error adding tool:', error);
+    }
 };
 
-export const deleteTool = (id) => {
-    toolsStore.update(tools => tools.filter(tool => tool.id !== id));
+// Update tool
+export const updateTool = async (id, updatedTool) => {
+    try {
+        const response = await fetch(`${API_URL}/tools/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedTool),
+        });
+        if (response.ok) {
+            toolsStore.update(tools =>
+                tools.map(tool => tool.id === id ? { ...tool, ...updatedTool } : tool)
+            );
+        }
+    } catch (error) {
+        console.error('Error updating tool:', error);
+    }
+};
+
+// Delete tool
+export const deleteTool = async (id) => {
+    try {
+        const response = await fetch(`${API_URL}/tools/${id}`, {
+            method: 'DELETE',
+        });
+        if (response.ok) {
+            toolsStore.update(tools => tools.filter(tool => tool.id !== id));
+        }
+    } catch (error) {
+        console.error('Error deleting tool:', error);
+    }
 };
