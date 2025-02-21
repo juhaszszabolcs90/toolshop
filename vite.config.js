@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [svelte()],
   base: '/toolshop/',
   build: {
-    outDir: 'dist',
+    outDir: 'docs',
     rollupOptions: {
       input: {
         main: './index.html'
